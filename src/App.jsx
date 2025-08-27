@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import User from "./components/User";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import UserCard from "./components/UserCard";
+import UserList from "./components/UserList";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -28,11 +30,13 @@ function App() {
     const newUser = {
       id: crypto.randomUUID(),
       name: form.name.value,
-      mail: form.mail.value,
-      title: form.title.value,
     };
     setUsers([...users, newUser]);
     form.reset();
+  }
+
+  function handleDeleteUser(id) {
+    setUsers(users.filter((user) => user.id !== id));
   }
 
   return (
@@ -44,6 +48,7 @@ function App() {
           {users.map((user) => (
             <User user={user} />
           ))}
+          <UserCard user={user} onDelete={handleDeleteUser} />
           <form onSubmit={handleSubmit}>
             <input name="name" placeholder="Navn" />
             <input type="mail" placeholder="Mail" />
